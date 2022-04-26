@@ -2,7 +2,8 @@
 #define NEO6M_GPS_H
 
 #include <stdint.h>
-#include <Arduino.h>
+
+#include "Arduino.h"
 #include <SoftwareSerial.h>
 
 // We use the TinyGPSPlus library to parse NMEA sentences from the GPS module. Of course, the
@@ -42,6 +43,12 @@ namespace Neo6M {
         bool hasLocation();
         double getLatitude();
         double getLongitude();
+
+        bool hasSatellites();
+        uint32_t getSatelliteCount();
+
+        bool hasAltitude();
+        double getAltitudeMeters();
     };
 }
 

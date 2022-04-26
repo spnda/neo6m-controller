@@ -68,3 +68,23 @@ template<bool debug>
 double Neo6M::GPS<debug>::getLongitude() {
     return tgps.location.lng();
 }
+
+template<bool debug>
+bool Neo6M::GPS<debug>::GPS::hasSatellites() {
+    return tgps.satellites.isValid();
+}
+
+template<bool debug>
+uint32_t Neo6M::GPS<debug>::GPS::getSatelliteCount() {
+    return tgps.satellites.value();
+}
+
+template<bool debug>
+bool Neo6M::GPS<debug>::GPS::hasAltitude() {
+    return tgps.altitude.isValid();
+}
+
+template<bool debug>
+double Neo6M::GPS<debug>::GPS::getAltitudeMeters() {
+    return tgps.altitude.meters();
+}
