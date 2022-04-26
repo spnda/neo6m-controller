@@ -1,8 +1,8 @@
-// #ifdef DEBUG
-#define NEO6M_DEBUG
-// #endif
-
 #include "neo6m_gps.hpp"
+
+// So that we can keep the function definitions within this TU.
+template class Neo6M::GPS<true>;
+template class Neo6M::GPS<false>;
 
 constexpr bool stringsEqual(char const * a, char const * b) {
     return *a == *b && (*a == '\0' || stringsEqual(a + 1, b + 1));
@@ -11,52 +11,60 @@ constexpr bool stringsEqual(char const * a, char const * b) {
 // This was made to target TinyGPSPlus 1.0.2.
 static_assert(stringsEqual(_GPS_VERSION, "1.0.2"));
 
-// Neo6M::GPS
-Neo6M::GPS::GPS() : tgps(), ss(), stream(nullptr) {}
+template<bool debug>
+Neo6M::GPS<debug>::GPS() : tgps(), ss(nullptr), stream(nullptr) {}
 
-Neo6M::GPS::GPS(uint8_t rx, uint8_t tx) {
+template<bool debug>
+Neo6M::GPS<debug>::GPS(uint8_t rx, uint8_t tx) {
     ss = new SoftwareSerial(rx, tx);
     stream = ss;
 }
 
-Neo6M::GPS::~GPS() {
+template<bool debug>
+Neo6M::GPS<debug>::~GPS() {
     if (ss)
         free(ss);
 }
 
-void Neo6M::GPS::begin() {
+template<bool debug>
+void Neo6M::GPS<debug>::begin() {
     ss->begin(defaultBaudrate);
 }
 
-void Neo6M::GPS::useStream(Stream* stream) {
+template<bool debug>
+void Neo6M::GPS<debug>::useStream(Stream* stream) {
     this->stream = stream;
 }
 
-void Neo6M::GPS::tryRead() {
+template<bool debug>
+void Neo6M::GPS<debug>::tryRead() {
     if (!stream) {
-#ifdef NEO6M_DEBUG
-        Serial.println("No valid stream available.");
-#endif
+        if constexpr (debug) {
+            Serial.println("No valid stream available.");
+        }
         return;
     }
 
     if (stream->available()) {
         auto val = stream->read();
-#ifdef NEO6M_DEBUG
-        Serial.print(char(val));
-#endif
+        if constexpr (debug) {
+            Serial.print(char(val));
+        }
         tgps << val;
     }
 }
 
-bool Neo6M::GPS::hasLocation() {
+template<bool debug>
+bool Neo6M::GPS<debug>::hasLocation() {
     return tgps.location.isValid();
 }
 
-double Neo6M::GPS::getLatitude() {
+template<bool debug>
+double Neo6M::GPS<debug>::getLatitude() {
     return tgps.location.lat();
 }
 
-double Neo6M::GPS::getLongitude() {
+template<bool debug>
+double Neo6M::GPS<debug>::getLongitude() {
     return tgps.location.lng();
 }

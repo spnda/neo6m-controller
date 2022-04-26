@@ -11,6 +11,7 @@
 #include <TinyGPS++.h>
 
 namespace Neo6M {
+    template<bool debug = false>
     class GPS {
         TinyGPSPlus tgps;
         SoftwareSerial* ss;

@@ -1,6 +1,6 @@
 # neo6m-controller
 
-This is a small wrapper around SoftwareSerial and TinyGPSPlus for Arduino to read various data from a NEO 6M GPS.
+This is a small wrapper around SoftwareSerial and TinyGPSPlus for Arduino to read various data from a NEO 6M GPS. Requires C++17 (`-std=c++1z`).
 
 ## Setup
 
