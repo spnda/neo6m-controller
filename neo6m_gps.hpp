@@ -11,6 +11,8 @@
 #include <TinyGPS++.h>
 
 namespace Neo6M {
+    constexpr static const auto defaultBaudrate = 9600;
+
     template<bool debug = false>
     class GPS {
         TinyGPSPlus tgps;
@@ -18,8 +20,6 @@ namespace Neo6M {
         Stream* stream;
 
     public:
-        constexpr static const auto defaultBaudrate = 9600;
-
         GPS();
 
         // This creates a new GPS object backed by a SoftwareSerial. By using this constructor, you
