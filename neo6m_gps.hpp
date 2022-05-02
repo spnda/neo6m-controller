@@ -14,11 +14,15 @@
 namespace Neo6M {
     constexpr static const auto defaultBaudrate = 9600;
 
+    constexpr static const auto GPGSV = "GPGSV";
+
     template<bool debug = false>
     class GPS {
-        TinyGPSPlus tgps;
+        TinyGPSPlus tgps = {};
         SoftwareSerial* ss;
         Stream* stream;
+
+        TinyGPSCustom satellitesInView = { tgps, GPGSV, 4 };
 
     public:
         GPS();
@@ -46,6 +50,7 @@ namespace Neo6M {
 
         bool hasSatellites();
         uint32_t getSatelliteCount();
+        uint32_t getSatelliteInViewCount();
 
         bool hasAltitude();
         double getAltitudeMeters();

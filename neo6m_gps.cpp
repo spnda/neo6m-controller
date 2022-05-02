@@ -12,7 +12,7 @@ constexpr bool stringsEqual(char const * a, char const * b) {
 static_assert(stringsEqual(_GPS_VERSION, "1.0.2"));
 
 template<bool debug>
-Neo6M::GPS<debug>::GPS() : tgps(), ss(nullptr), stream(nullptr) {}
+Neo6M::GPS<debug>::GPS() : ss(nullptr), stream(nullptr){}
 
 template<bool debug>
 Neo6M::GPS<debug>::GPS(uint8_t rx, uint8_t tx) {
@@ -77,6 +77,11 @@ bool Neo6M::GPS<debug>::GPS::hasSatellites() {
 template<bool debug>
 uint32_t Neo6M::GPS<debug>::GPS::getSatelliteCount() {
     return tgps.satellites.value();
+}
+
+template<bool debug>
+uint32_t Neo6M::GPS<debug>::GPS::getSatelliteInViewCount() {
+    return atol(satellitesInView.value());
 }
 
 template<bool debug>
